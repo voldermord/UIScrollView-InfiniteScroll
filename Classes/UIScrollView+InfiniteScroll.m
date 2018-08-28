@@ -695,7 +695,12 @@ static const void *kPBInfiniteScrollStateKey = &kPBInfiniteScrollStateKey;
 
     if (self.pb_infiniteScrollState.direction == InfiniteScrollDirectionVertical) {
         pt.x = self.contentOffset.x;
-        pt.y = self.contentInset.top * -1;
+         if (@available(iOS 11.0, *)) {
+            pt.y = self.adjustedContentInset.top * -1;
+        } else {
+            // Fallback on earlier versions
+             pt.y = self.contentInset.top * -1;
+        }
     } else {
         pt.x = self.contentInset.left * -1;
         pt.y = self.contentOffset.y;
